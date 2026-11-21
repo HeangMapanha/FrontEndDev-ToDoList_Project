@@ -1,4 +1,3 @@
-
 import './App.css'
 import { AuthProvider } from './context/AuthContext'
 import { LoginPage } from './pages/Login'
@@ -10,6 +9,7 @@ import Tasks from "./pages/Task";
 import EditTask from "./pages/EditTask";
 import Calendar from "./pages/Calendar";
 import Settings from "./pages/Settings";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path="tasks/new" element={<EditTask />} />
         <Route path="calendar" element={<Calendar />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
