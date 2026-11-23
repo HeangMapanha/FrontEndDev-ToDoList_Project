@@ -1,49 +1,48 @@
-import { createContext, useState } from "react";
-
-export const TaskContext = createContext(null)
-
-export function TaskProvider ({children}) {
-    const [task, setTask] = useState(null);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        localStorage.setItem("task", JSON.stringify(tasks));
-    }, [tasks]);
+import { createContext, useContext } from "react";
+import { useLocalStorage } from "../hook/useLocalStorage";
 
 
-    console.log(error)
-    // const login = (email, password) => {
-    //     setError(null);
-    //     if (email === "test@gmail.com" && password === "12345") {
-    //         setUser({email})
-    //         console.log(user)
-    //     }
-        
-    //     else {
-    //         setError("Invalid Email or password")
-    //     }
+export const TaskContext = createContext(null);
 
-    // }
+export function TaskProvider({ children }) {
+  const [tasks, setTasks] = useLocalStorage("tasks", []);
 
-    // const logout = () => setUser(null)
+  const addTask = ({ title, description = "", dueDate = "", tagIds = [] }) =>
+    setTasks((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), title, description, dueDate, complete: false, tagIds },
+    ]);
 
-    const addTask = () => {}
-    const deleteTask = () => {}
-    const editTask = () => {}
-    const toggleTask = () => {}
-    const removeTagFromTasks = (tagId) =>
-        setTasks((prev) =>
-        prev.map((t) => ({ ...t, tagIds: t.tagIds.filter((id) => id !== tagId) }))
-        );
-    const clearComplete = () => {}
+  const deleteTask = (id) =>
+    setTasks((prev) => prev.filter((t) => t.id !== id));
 
-    const value = {task, error}
+  const editTask = (id, changes) =>
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, ...changes } : t))
+    );
 
-    return (
-        <TaskContext.Provider value={value}>
-            {children}
-        </TaskContext.Provider>
-    )
+  const toggleTask = (id) =>
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, complete: !t.complete } : t))
+    );
 
+  const removeTagFromTasks = (tagId) =>
+    setTasks((prev) =>
+      prev.map((t) => ({ ...t, tagIds: t.tagIds.filter((id) => id !== tagId) }))
+    );
+
+  const clearComplete = () =>
+    setTasks((prev) => prev.filter((t) => !t.complete));
+
+  const value = {
+    tasks,
+    addTask,
+    deleteTask,
+    editTask,
+    toggleTask,
+    removeTagFromTasks,
+    clearComplete,
+  };
+
+  return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }
-

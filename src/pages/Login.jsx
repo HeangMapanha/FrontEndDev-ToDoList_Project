@@ -1,31 +1,43 @@
 import { useState } from "react";
-import { useAuth } from "../hook/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
-export function LoginPage () {
-    const { login, error } = useAuth()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")   
+export function LoginPage() {
+  const { login, error } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        if (!email.trim() || !password.trim()) return
-        console.log("submitted:", email, password); 
-        return login(email.trim(), login)
-        
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!email.trim() || !password.trim()) return;
 
-    return (
-        <div className="main">
-            <form className="userInput" onSubmit={handleSubmit}>
-                <label className="email">Email:</label>
-                <input value={email} type="email" placeholder="Alice@gmail.com" onChange={(event) => setEmail(event.target.value)}></input>
-                
-                <label className="password">Password:</label>
-                <input value={password} type="text" placeholder="Alice@gmail.com" onChange={(event) => setPassword(event.target.value)}></input>
-                
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    )
+    login(email.trim(), password);
+  };
 
+  return (
+    <div className="main">
+      <form className="userInput" onSubmit={handleSubmit}>
+        <label htmlFor="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          placeholder="Alice@gmail.com"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+
+        <label htmlFor="password">Password:</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          placeholder="12345"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+
+        {error && <p className="error">{error}</p>}
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
 }

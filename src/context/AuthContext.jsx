@@ -1,34 +1,56 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext(null);
 
-export function AuthProvider ({children}) {
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
+export function AuthProvider({ children }) {
+  const [accounts, setAccounts] = useLocalStorage("accounts", []);
+  const [currentAccountId, setCurrentAccountId] = useLocalStorage("currentAccountId", null);
+  const [error, setError] = useState(null);
 
-    console.log(error)
-    const login = (email, password) => {
-        setError(null);
-        if (email === "test@gmail.com" && password === "12345") {
-            setUser({email})
-            console.log(user)
-        }
-        
-        else {
-            setError("Invalid Email or password")
-        }
+  // derived: never stored separately
+  const currentAccount = accounts.find((a) => a.id === currentAccountId) ?? null;
 
+  const register = ({ name, email, password }) => {
+    setError(null);
+
+    const exists = accounts.some(
+      (a) => a.email.toLowerCase() === email.toLowerCase()
+    );
+    if (exists) {
+      setError("Email already registered");
+      return false;
     }
 
-    const logout = () => setUser(null)
+    const account = {
+      id: crypto.randomUUID(),
+      name,
+      email,
+      password, // Text
+    };
+    setAccounts((prev) => [...prev, account]);
+    setCurrentAccountId(account.id); // log in right after registering
+    return true;
+  };
 
-    const value = {user, error, login, logout}
+  const login = (email, password) => {
+    setError(null);
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    )
+    const account = accounts.find(
+      (a) => a.email.toLowerCase() === email.toLowerCase() && a.password === password
+    );
+    if (!account) {
+      setError("Invalid email or password");
+      return false;
+    }
 
+    setCurrentAccountId(account.id);
+    return true;
+  };
+
+  const logout = () => setCurrentAccountId(null);
+
+  const value = { currentAccount, error, register, login, logout };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-
