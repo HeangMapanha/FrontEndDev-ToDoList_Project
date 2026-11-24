@@ -1,42 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
+import { useLocalStorage } from "../hook/useLocalStorage";
 
-export const TagContext = createContext(null)
+export const TagContext = createContext(null);
 
-export function TagProvider ({children}) {
-    const [tag, setTag] = useState(null);
-    const [error, setError] = useState(null);
+export function TagProvider({ children }) {
+  const [tags, setTags] = useLocalStorage("tags", []);
 
-    useEffect(() => {
-        localStorage.setItem("tags", JSON.stringify(tasks));
-    }, [tasks]);
-    console.log(error)
-    // const login = (email, password) => {
-    //     setError(null);
-    //     if (email === "test@gmail.com" && password === "12345") {
-    //         setUser({email})
-    //         console.log(user)
-    //     }
-        
-    //     else {
-    //         setError("Invalid Email or password")
-    //     }
+  const addTag = (name, color = "gray") => {
+    const clean = name.trim();
+    if (!clean) return;
+    setTags((prev) => [...prev, { id: crypto.randomUUID(), name: clean, color }]);
+  };
 
-    // }
+  const editTag = (id, changes) =>
+    setTags((prev) => prev.map((t) => (t.id === id ? { ...t, ...changes } : t)));
 
-    // const logout = () => setUser(null)
+  const deleteTag = (id) =>
+    setTags((prev) => prev.filter((t) => t.id !== id));
 
-    const addTag = () => {}
-    const deleteTag = () => {}
-    const editTag = () => {}
-    const toggleTag = () => {}
+  const value = { tags, addTag, editTag, deleteTag };
 
-    const value = {task, error}
-
-    return (
-        <TaskContext.Provider value={value}>
-            {children}
-        </TaskContext.Provider>
-    )
-
+  return <TagContext.Provider value={value}>{children}</TagContext.Provider>;
 }
-

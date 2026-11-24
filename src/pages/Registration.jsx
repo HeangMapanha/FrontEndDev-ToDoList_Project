@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hook/useAuth";
 
-export function RegistrationPage() {
+export default function Registration() {
   const { register, currentAccount, error } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -73,6 +74,8 @@ export function RegistrationPage() {
 
         <button type="submit">Submit</button>
       </form>
+
+      <a href="/login">Register</a>
     </div>
   );
 }

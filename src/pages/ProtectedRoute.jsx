@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hook/useAuth";
 
-export function ProtectedRoute() {
+export default function ProtectedRoute() {
   const { currentAccount } = useAuth();
 
   if (!currentAccount) {

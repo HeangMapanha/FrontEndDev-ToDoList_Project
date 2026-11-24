@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hook/useAuth";
 
-export function LoginPage() {
+export default function Login() {
   const { login, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,6 +38,9 @@ export function LoginPage() {
 
         <button type="submit">Submit</button>
       </form>
+      
+      <a href="/register">Register</a>
+
     </div>
   );
 }

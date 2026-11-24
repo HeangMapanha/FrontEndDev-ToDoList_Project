@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useTask } from "../../hook/useTask";
 
+import { useTag } from "../../hook/useTag";
+
 export default function TaskForm() {
   const { addTask } = useTask();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [tagIds, setTagIds] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault(); // for preventing data loss
