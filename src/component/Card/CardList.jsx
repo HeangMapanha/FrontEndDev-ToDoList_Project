@@ -1,6 +1,6 @@
 import { useTask } from "../../hook/useTask";
 
-export default function TaskList() {
+export default function CardList() {
   const { tasks, toggleTask, deleteTask, clearComplete } = useTask();
 
   if (tasks.length === 0) {

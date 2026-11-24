@@ -1,22 +1,31 @@
 import { createContext } from "react";
 import { useLocalStorage } from "../hook/useLocalStorage";
+import { useAuth } from "../hook/useAuth";
+import { STORAGE_KEYS, createTag } from "../model/model";
 
 export const TagContext = createContext(null);
 
 export function TagProvider({ children }) {
-  const [tags, setTags] = useLocalStorage("tags", []);
+  const { currentAccount } = useAuth();
+  const [allTags, setAllTags] = useLocalStorage(STORAGE_KEYS.tags, []);
 
-  const addTag = (name, color = "gray") => {
+  // only the logged-in account's tags are exposed
+  const tags = allTags.filter((t) => t.accountId === currentAccount?.id);
+
+  const addTag = (name, color) => {
     const clean = name.trim();
-    if (!clean) return;
-    setTags((prev) => [...prev, { id: crypto.randomUUID(), name: clean, color }]);
+    if (!clean || !currentAccount) return;
+    setAllTags((prev) => [
+      ...prev,
+      createTag({ accountId: currentAccount.id, name: clean, color }),
+    ]);
   };
 
   const editTag = (id, changes) =>
-    setTags((prev) => prev.map((t) => (t.id === id ? { ...t, ...changes } : t)));
+    setAllTags((prev) => prev.map((t) => (t.id === id ? { ...t, ...changes } : t)));
 
   const deleteTag = (id) =>
-    setTags((prev) => prev.filter((t) => t.id !== id));
+    setAllTags((prev) => prev.filter((t) => t.id !== id));
 
   const value = { tags, addTag, editTag, deleteTag };
 

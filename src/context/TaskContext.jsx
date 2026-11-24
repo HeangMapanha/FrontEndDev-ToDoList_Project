@@ -1,38 +1,46 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import { useLocalStorage } from "../hook/useLocalStorage";
-
+import { useAuth } from "../hook/useAuth";
+import { STORAGE_KEYS, createTask } from "../model/model";
 
 export const TaskContext = createContext(null);
 
 export function TaskProvider({ children }) {
-  const [tasks, setTasks] = useLocalStorage("tasks", []);
+  const { currentAccount } = useAuth();
+  const [allTasks, setAllTasks] = useLocalStorage(STORAGE_KEYS.tasks, []);
 
-  const addTask = ({ title, description = "", dueDate = "", tagIds = [] }) =>
-    setTasks((prev) => [
+  const tasks = allTasks.filter((t) => t.accountId === currentAccount?.id);
+
+  const addTask = ({ title, description, dueDate, tagIds }) => {
+    if (!currentAccount) return;
+    setAllTasks((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), title, description, dueDate, complete: false, tagIds },
+      createTask({ accountId: currentAccount.id, title, description, dueDate, tagIds }),
     ]);
+  };
 
   const deleteTask = (id) =>
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    setAllTasks((prev) => prev.filter((t) => t.id !== id));
 
   const editTask = (id, changes) =>
-    setTasks((prev) =>
+    setAllTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, ...changes } : t))
     );
 
   const toggleTask = (id) =>
-    setTasks((prev) =>
+    setAllTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, complete: !t.complete } : t))
     );
 
   const removeTagFromTasks = (tagId) =>
-    setTasks((prev) =>
-      prev.map((t) => ({ ...t, tagIds: t.tagIds.filter((id) => id !== tagId) }))
+    setAllTasks((prev) =>
+      prev.map((t) => ({ ...t, tagIds: (t.tagIds ?? []).filter((id) => id !== tagId) }))
     );
 
   const clearComplete = () =>
-    setTasks((prev) => prev.filter((t) => !t.complete));
+    setAllTasks((prev) =>
+      prev.filter((t) => !(t.accountId === currentAccount?.id && t.complete))
+    );
 
   const value = {
     tasks,

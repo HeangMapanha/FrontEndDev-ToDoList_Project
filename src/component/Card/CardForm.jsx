@@ -1,25 +1,23 @@
 import { useState } from "react";
 import { useTask } from "../../hook/useTask";
+import PickTag from "../PickTag/PickTag"; // adjust to your folder
 
-import { useTag } from "../../hook/useTag";
-
-export default function TaskForm() {
-  const { addTask } = useTask();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [tagIds, setTagIds] = useState([]);
+export default function CardForm({ task = null, onDone }) {
+  const { addTask, editTask } = useTask();
+  const [title, setTitle] = useState(task?.title ?? "");
+  const [description, setDescription] = useState(task?.description ?? "");
+  const [dueDate, setDueDate] = useState(task?.dueDate ?? "");
+  const [tagIds, setTagIds] = useState(task?.tagIds ?? []);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // for preventing data loss
+    e.preventDefault();
     if (!title.trim()) return;
 
-    addTask({ title: title.trim(), description, dueDate });
+    const data = { title: title.trim(), description, dueDate, tagIds };
+    if (task) editTask(task.id, data);
+    else addTask(data);
 
-    // reset the form
-    setTitle("");
-    setDescription("");
-    setDueDate("");
+    onDone?.(); // closes the modal
   };
 
   return (
@@ -41,7 +39,11 @@ export default function TaskForm() {
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />
-      <button type="submit">Add Task</button>
+
+      <PickTag selectedIds={tagIds} onChange={setTagIds} />
+
+      <button type="submit">{task ? "Save" : "Add Task"}</button>
+      <button type="button" onClick={onDone}>Cancel</button>
     </form>
   );
 }

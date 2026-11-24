@@ -31,9 +31,9 @@ function App() {
   {/* protected: everything inside needs a logged-in account */}
   <Route element={<ProtectedRoute />}>
     <Route element={<Layout />}>
-      <Route path="/" element={<Dashboard />} />
+      {/* <Route path="/" element={<Dashboard />} /> */}
       <Route path="/tasks" element={<Tasks />} />
-      <Route path="/tasks/edit" element={<EditTask />} />
+      {/* <Route path="/tasks/edit" element={<EditTask />} /> */}
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/settings" element={<Settings />} />
     </Route>

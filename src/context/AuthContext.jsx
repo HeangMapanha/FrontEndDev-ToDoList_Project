@@ -1,19 +1,21 @@
 import { createContext, useState } from "react";
 import { useLocalStorage } from "../hook/useLocalStorage";
+import { STORAGE_KEYS, createAccount } from "../model/model";
 
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [accounts, setAccounts] = useLocalStorage("accounts", []);
-  const [currentAccountId, setCurrentAccountId] = useLocalStorage("currentAccountId", null);
+  const [accounts, setAccounts] = useLocalStorage(STORAGE_KEYS.accounts, []);
+  const [currentAccountId, setCurrentAccountId] = useLocalStorage(
+    STORAGE_KEYS.currentAccountId,
+    null
+  );
   const [error, setError] = useState(null);
 
-  // derived: never stored separately
   const currentAccount = accounts.find((a) => a.id === currentAccountId) ?? null;
 
   const register = ({ name, email, password }) => {
     setError(null);
-
     const exists = accounts.some(
       (a) => a.email.toLowerCase() === email.toLowerCase()
     );
@@ -21,21 +23,14 @@ export function AuthProvider({ children }) {
       setError("Email already registered");
       return false;
     }
-
-    const account = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      password, // Text
-    };
+    const account = createAccount({ name, email, password });
     setAccounts((prev) => [...prev, account]);
-    setCurrentAccountId(account.id); // log in right after registering
+    setCurrentAccountId(account.id);
     return true;
   };
 
   const login = (email, password) => {
     setError(null);
-
     const account = accounts.find(
       (a) => a.email.toLowerCase() === email.toLowerCase() && a.password === password
     );
@@ -43,7 +38,6 @@ export function AuthProvider({ children }) {
       setError("Invalid email or password");
       return false;
     }
-
     setCurrentAccountId(account.id);
     return true;
   };
