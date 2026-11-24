@@ -22,18 +22,23 @@ export default function CardForm({ task = null, onDone }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Title of the Task */}
       <input
         type="text"
         placeholder="Task title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
+      {/* description */}
       <input
         type="text"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+
+      {/* Date */}
       <input
         type="date"
         value={dueDate}
