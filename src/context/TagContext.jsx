@@ -27,7 +27,10 @@ export function TagProvider({ children }) {
   const deleteTag = (id) =>
     setAllTags((prev) => prev.filter((t) => t.id !== id));
 
-  const value = { tags, addTag, editTag, deleteTag };
+  const clearAllTags = () =>
+    setAllTags((prev) => prev.filter((t) => t.accountId !== currentAccount?.id));
+
+  const value = { tags, addTag, editTag, deleteTag, clearAllTags };
 
   return <TagContext.Provider value={value}>{children}</TagContext.Provider>;
 }

@@ -2,6 +2,7 @@ export const STORAGE_KEYS = {
   accounts: "accounts",
   tasks: "tasks",
   tags: "tags",
+  settings: "settings",
   currentAccountId: "currentAccountId",
 };
 

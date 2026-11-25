@@ -30,6 +30,13 @@
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #141119;
+  --surface: #1f1a29;
+  --border: #333333;
+  --text: #eeeeee;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;

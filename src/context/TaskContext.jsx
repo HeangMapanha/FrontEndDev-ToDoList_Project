@@ -42,6 +42,9 @@ export function TaskProvider({ children }) {
       prev.filter((t) => !(t.accountId === currentAccount?.id && t.complete))
     );
 
+  const clearAllTasks = () =>
+    setAllTasks((prev) => prev.filter((t) => t.accountId !== currentAccount?.id));
+
   const value = {
     tasks,
     addTask,
@@ -50,6 +53,7 @@ export function TaskProvider({ children }) {
     toggleTask,
     removeTagFromTasks,
     clearComplete,
+    clearAllTasks
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
