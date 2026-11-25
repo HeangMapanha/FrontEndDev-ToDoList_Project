@@ -6,9 +6,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ProtectedRoute from './pages/ProtectedRoute';
 import Layout from './component/Layout/Layout';
-import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Task";
-import EditTask from "./pages/EditTask";
 import Calendar from "./pages/Calendar";
 import Settings from "./pages/Settings";
 

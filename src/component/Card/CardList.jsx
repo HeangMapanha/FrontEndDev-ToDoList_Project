@@ -2,12 +2,9 @@ import { useTask } from "../../hook/useTask";
 import { CardTask } from "./CardTask";
 import "./CardList.css";
 
-export default function CardList( {onEdit} ) {
-  const { tasks, toggleTask, deleteTask, clearComplete } = useTask();
-
-  if (tasks.length === 0) {
-    return <p>No tasks yet.</p>;
-  }
+export default function CardList( { tasks, onEdit } ) {
+  const {toggleTask, deleteTask, clearComplete } = useTask();
+  
 
   return (
     <div>
