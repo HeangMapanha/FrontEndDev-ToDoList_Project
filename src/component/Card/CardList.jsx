@@ -1,7 +1,8 @@
 import { useTask } from "../../hook/useTask";
 import { CardTask } from "./CardTask";
+import "./CardList.css";
 
-export default function CardList() {
+export default function CardList( {onEdit} ) {
   const { tasks, toggleTask, deleteTask, clearComplete } = useTask();
 
   if (tasks.length === 0) {
@@ -10,39 +11,30 @@ export default function CardList() {
 
   return (
     <div>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <CardTask 
+      <table className="task-table">
+        <thead>
+          <tr>
+            <th className="col-check" />
+            <th>Task</th>
+            <th>Descriptions</th>
+            <th className="col-due">Due</th>
+            <th className="col-tags">Tags</th>
+            <th className="col-actions" />
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.map((task) => (
+            <CardTask
+              key={task.id}
               task={task}
               toggleTask={toggleTask}
               deleteTask={deleteTask}
-              />
-            {/* <input
-              type="checkbox"
-              checked={task.complete}
-              onChange={() => toggleTask(task.id)}
+              onEdit={onEdit}
             />
-
-            <span
-              style={{ textDecoration: task.complete ? "line-through" : "none" }} // Check if Task is completed then it will cross
-            >
-              {task.title}
-            </span>
-
-            {task.dueDate && <small> (due {task.dueDate})</small>} 
-            {task.description && <p>{task.description}</p>}
-
-            <button onClick={() => deleteTask(task.id)}>Delete</button> */}
-            
-          </li>
-          // This will display list of task
-
-        ))}
-      </ul>
-      
-      {/* Clear all of of tasks */}
-      <button onClick={clearComplete}>Clear completed</button>
+          ))}
+        </tbody>
+      </table>
+      <button type="button" onClick={clearComplete}>Clear completed</button>
     </div>
-  );
+    );
 }

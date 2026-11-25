@@ -1,29 +1,47 @@
+import TagChip from "../TagChip/TagChip";
+import { useTag } from "../../hook/useTag";
+import "./CardTask.css";
 
+export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
+  const { tags } = useTag();
 
+  const taskTags = (task.tagIds ?? [])
+    .map((id) => tags.find((t) => t.id === id))
+    .filter(Boolean);
 
-export function CardTask(props) {
-    // Single element that hold the data 
-    const { task, toggleTask, deleteTask } = props
-    return (
+  return (
+    <tr className={task.complete ? "done" : ""}>
+      <td>
+        <input
+          type="checkbox"
+          checked={task.complete}
+          onChange={() => toggleTask(task.id)}
+        />
+      </td>
 
-        <div className="Main">
-            {/* Check box for task */}
-            <input
-              type="checkbox"
-              checked={task.complete}
-              onChange={() => toggleTask(task.id)}
-            />
+      <td>
+        <p className="text">{task.title}</p>
+        
+      </td>
 
-            <span
-              style={{ textDecoration: task.complete ? "line-through" : "none" }} // Check if Task is completed then it will cross
-            >
-              {task.title}
-            </span>
+      <td>{task.description && <small className="text">{task.description}</small>}</td>
 
-            {task.dueDate && <small> (due {task.dueDate})</small>} 
-            {task.description && <p>{task.description}</p>}
+      <td>{task.dueDate || "—"}</td>
 
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+      <td>
+        <div className="cell-tags">
+          {taskTags.map((tag) => (
+            <TagChip key={tag.id} tag={tag} />
+          ))}
         </div>
-    )
+      </td>
+
+      <td>
+        <div className="cell-actions">
+          <button type="button" onClick={() => onEdit(task.id)}>Edit</button>
+          <button type="button" onClick={() => deleteTask(task.id)}>Delete</button>
+        </div>
+      </td>
+    </tr>
+  );
 }
