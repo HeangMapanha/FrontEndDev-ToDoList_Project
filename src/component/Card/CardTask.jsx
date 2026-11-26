@@ -1,9 +1,11 @@
 import TagChip from "../TagChip/TagChip";
 import { useTag } from "../../hook/useTag";
+import { TimeLabel } from "../TimeLabel/TimeLabel";
 import "./CardTask.css";
 
 export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
   const { tags } = useTag();
+  
 
   // Load all tags into this
   const taskTags = (task.tagIds ?? [])
@@ -28,7 +30,10 @@ export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
 
       <td>{task.description && <small className="text">{task.description}</small>}</td>
 
-      <td>{task.dueDate || "—"}</td>
+      {/* <td>{task.dueDate || "—"}</td> */}
+      <td>
+        <TimeLabel date={task.dueDate} complete={task.complete} completedAt={task.completedAt}/>
+      </td>
 
       <td>
         {/* Match the tags  */}

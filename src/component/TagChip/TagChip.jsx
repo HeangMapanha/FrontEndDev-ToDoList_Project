@@ -17,6 +17,7 @@ export default function TagChip({ tag, selected = false, onClick, onRemove }) {
   return (
     <span className={className} style={style}>
       {tag.name}
+      {/* Check if there a remove feature it will become a button else just span */}
       {onRemove && (
         <button type="button" aria-label={`Delete ${tag.name}`} onClick={onRemove}>
           ×

@@ -15,7 +15,7 @@
 
 .task-table .col-check   { width: 40px; }
 .task-table .col-desc   { width: 40px; }
-.task-table .col-due     { width: 110px; }
-.task-table .col-actions { width: 160px; }
+.task-table .col-due     { width: 140px; }
+.task-table .col-actions { width: 100px; }
 th.col-tags, th.col-due {text-align: center;}
 /* the Task and Tags columns share the remaining space */
