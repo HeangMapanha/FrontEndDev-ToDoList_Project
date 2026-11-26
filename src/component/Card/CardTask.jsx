@@ -5,12 +5,14 @@ import "./CardTask.css";
 export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
   const { tags } = useTag();
 
+  // Load all tags into this
   const taskTags = (task.tagIds ?? [])
     .map((id) => tags.find((t) => t.id === id))
     .filter(Boolean);
 
   return (
-    <tr className={task.complete ? "done" : ""}>
+    // Put className done or empty
+    <tr className={task.complete ? "done" : ""}> 
       <td>
         <input
           type="checkbox"
@@ -29,6 +31,7 @@ export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
       <td>{task.dueDate || "—"}</td>
 
       <td>
+        {/* Match the tags  */}
         <div className="cell-tags">
           {taskTags.map((tag) => (
             <TagChip key={tag.id} tag={tag} />

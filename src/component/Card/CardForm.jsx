@@ -14,7 +14,7 @@ export default function CardForm({ task = null, onDone }) {
     if (!title.trim()) return;
 
     const data = { title: title.trim(), description, dueDate, tagIds };
-    if (task) editTask(task.id, data);
+    if (task) editTask(task.id, data); // find task if exist create a new one
     else addTask(data);
 
     onDone?.(); // closes the modal

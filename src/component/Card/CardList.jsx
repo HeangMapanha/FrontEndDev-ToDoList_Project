@@ -10,6 +10,7 @@ export default function CardList( { tasks, onEdit } ) {
     <div>
       <table className="task-table">
         <thead>
+          {/* Table to display the data labels */}
           <tr>
             <th className="col-check" />
             <th>Task</th>
@@ -19,6 +20,7 @@ export default function CardList( { tasks, onEdit } ) {
             <th className="col-actions" />
           </tr>
         </thead>
+        {/* display all data, also depends on filters */}
         <tbody>
           {tasks.map((task) => (
             <CardTask

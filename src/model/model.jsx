@@ -4,8 +4,9 @@ export const STORAGE_KEYS = {
   tags: "tags",
   settings: "settings",
   currentAccountId: "currentAccountId",
-};
+}; // Main key of localstorage
 
+// Models for each object Key
 export const createAccount = ({ name, email, password }) => ({
   id: crypto.randomUUID(),
   name,

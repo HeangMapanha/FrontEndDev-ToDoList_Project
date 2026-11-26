@@ -83,7 +83,7 @@ export default function Settings() {
       localStorage.setItem(STORAGE_KEYS.tags, JSON.stringify(data.tags));
       localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(data.settings));
 
-      // stay logged in only if this account exists in the imported file
+      // stay logged in only if this account exists in the imported file, the first account gets to auto login
       const stillExists = data.accounts.some((a) => a.id === currentAccount?.id);
       if (!stillExists) localStorage.removeItem(STORAGE_KEYS.currentAccountId);
 

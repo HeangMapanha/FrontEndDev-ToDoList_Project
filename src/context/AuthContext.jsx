@@ -9,11 +9,14 @@ export function AuthProvider({ children }) {
   const [currentAccountId, setCurrentAccountId] = useLocalStorage(
     STORAGE_KEYS.currentAccountId,
     null
-  );
+  ); // Select current account so task and tag can use the ID
+
   const [error, setError] = useState(null);
+
 
   const currentAccount = accounts.find((a) => a.id === currentAccountId) ?? null;
 
+  // Creating a new Account
   const register = ({ name, email, password }) => {
     setError(null);
     const exists = accounts.some(
@@ -23,9 +26,10 @@ export function AuthProvider({ children }) {
       setError("Email already registered");
       return false;
     }
+
     const account = createAccount({ name, email, password });
     setAccounts((prev) => [...prev, account]);
-    setCurrentAccountId(account.id);
+    setCurrentAccountId(account.id); // automaically login
     return true;
   };
 

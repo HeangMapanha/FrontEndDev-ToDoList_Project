@@ -8,5 +8,5 @@ export default function ProtectedRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return <Outlet />; // if account exist, it can access any child inside this route
 }

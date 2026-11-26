@@ -10,14 +10,14 @@ import TagManager from "../component/TagManager/TagManager";
 export default function Tasks() {
   const { tasks } = useTask();
   const { tags } = useTag();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // use popup
   const [editingId, setEditingId] = useState(null);
-  const [tagsOpen, setTagsOpen] = useState(false);
+  const [tagsOpen, setTagsOpen] = useState(false); // use tag popup
   const [filter, setFilter] = useState({ status: "all", tagId: "", search: "" });
 
-  const editingTask = tasks.find((t) => t.id === editingId) ?? null;
+  const editingTask = tasks.find((t) => t.id === editingId) ?? null; // will search for existing task or null
 
-  const openNew = () => { setEditingId(null); setOpen(true); };
+  const openNew = () => { setEditingId(null); setOpen(true); }; // Give new task/tag null id
   const openEdit = (id) => { setEditingId(id); setOpen(true); };
   const close = () => { setOpen(false); setEditingId(null); };
 
@@ -39,6 +39,7 @@ export default function Tasks() {
       <button type="button" onClick={openNew}>+ New Task</button>
       <button type="button" onClick={() => setTagsOpen(true)}>Manage Tags</button>
 
+      {/* Input filter info and the action */}
       <FilterBar filter={filter} onChange={setFilter} />
 
       {/* List the task with filter, all by default */}

@@ -2,6 +2,7 @@ import { useTag } from "../../hook/useTag";
 
 export default function FilterBar({ filter, onChange }) {
   const { tags } = useTag();
+  // take anything as parameters and input it to list
   const set = (changes) => onChange({ ...filter, ...changes });
 
   return (

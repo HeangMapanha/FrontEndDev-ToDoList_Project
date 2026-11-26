@@ -6,7 +6,7 @@ import { STORAGE_KEYS, createTag } from "../model/model";
 export const TagContext = createContext(null);
 
 export function TagProvider({ children }) {
-  const { currentAccount } = useAuth();
+  const { currentAccount } = useAuth(); // use Current ID to match account
   const [allTags, setAllTags] = useLocalStorage(STORAGE_KEYS.tags, []);
 
   // only the logged-in account's tags are exposed
@@ -20,7 +20,7 @@ export function TagProvider({ children }) {
       createTag({ accountId: currentAccount.id, name: clean, color }),
     ]);
   };
-
+  // any tags edits find it with ID
   const editTag = (id, changes) =>
     setAllTags((prev) => prev.map((t) => (t.id === id ? { ...t, ...changes } : t)));
 

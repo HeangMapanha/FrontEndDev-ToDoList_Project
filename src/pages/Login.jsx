@@ -13,6 +13,7 @@ export default function Login() {
     login(email.trim(), password);
   };
 
+  // Input for emails/passwords
   return (
     <div className="main">
       <form className="userInput" onSubmit={handleSubmit}>

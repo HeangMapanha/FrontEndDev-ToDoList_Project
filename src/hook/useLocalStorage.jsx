@@ -5,7 +5,7 @@ export const useLocalStorage = (key, initialValue) => {
   const [value, setValue] = useState(() => {
     try {
       const stored = localStorage.getItem(key);
-      return stored !== null ? JSON.parse(stored) : initialValue;
+      return stored !== null ? JSON.parse(stored) : initialValue; // use [] on most keys, else use existing one
     } catch {
       return initialValue;
     }
@@ -14,11 +14,11 @@ export const useLocalStorage = (key, initialValue) => {
   // Runs every time `value` changes: save it
   useEffect(() => {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(key, JSON.stringify(value)); // value is stored an objet inside parent object key
     } catch {
       // storage full or unavailable; ignore
     }
-  }, [key, value]);
+  }, [key, value]); // anytime key or value changed, but mostly value
 
   return [value, setValue];
 };
