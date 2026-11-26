@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
 
 export default function Login() {
-  const { login, error } = useAuth();
+  const { login, error, currentAccount } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // already logged in: go straight to the tasks page
+  if (currentAccount) return <Navigate to="/tasks" replace />;
 
   const handleSubmit = (event) => {
     event.preventDefault();

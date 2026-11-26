@@ -1,19 +1,19 @@
 .task-table td {
   padding: 10px 14px;
-  background: #1f1a29;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   vertical-align: middle;
   overflow-wrap: anywhere;
 }
 
 /* round the row's ends, since border-radius doesn't work on <tr> */
 .task-table td:first-child {
-  border-left: 1px solid #333;
+  border-left: 1px solid var(--border);
   border-radius: 10px 0 0 10px;
 }
 .task-table td:last-child {
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--border);
   border-radius: 0 10px 10px 0;
 }
 
@@ -34,7 +34,7 @@
     justify-content: flex-end; 
 }
 
-.task-table tr.done .title { 
+.task-table tr.done .text { 
     text-decoration: line-through; 
     opacity: 0.6; 
 }

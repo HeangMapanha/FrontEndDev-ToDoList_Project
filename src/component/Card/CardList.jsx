@@ -1,13 +1,13 @@
 import { useTask } from "../../hook/useTask";
 import { CardTask } from "./CardTask";
 import "./CardList.css";
-
+ 
 export default function CardList( { tasks, onEdit } ) {
   const {toggleTask, deleteTask, clearComplete } = useTask();
   
-
+ 
   return (
-    <div>
+    <div className="table-scroll">
       <table className="task-table">
         <thead>
           {/* Table to display the data labels */}
@@ -33,7 +33,7 @@ export default function CardList( { tasks, onEdit } ) {
           ))}
         </tbody>
       </table>
-      <button type="button" onClick={clearComplete}>Clear completed</button>
+      <button type="button" className="btn" onClick={clearComplete}>Clear completed</button>
     </div>
     );
 }

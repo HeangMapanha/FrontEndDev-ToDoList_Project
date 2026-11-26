@@ -6,8 +6,6 @@ import { useAuth } from "../hook/useAuth";
 import { useSettings } from "../context/SettingsContext";
 import "./Settings.css";
 
-// const PRIORITIES = ["Low", "Medium", "High"];
-
 // function for import
 const read = (key, fallback) => {
   try {
@@ -21,16 +19,17 @@ const read = (key, fallback) => {
 // Main settings page
 export default function Settings() {
   const fileRef = useRef(null);
-  const { settings,updateSetting, toggleTheme } = useSettings();
+  const { settings, toggleTheme, resetSettings } = useSettings();
   const { currentAccount, logout } = useAuth();
   const { clearAllTasks } = useTask();
   const { clearAllTags } = useTag();
 
   const handleClearAll = () => {
-    if (!window.confirm("Delete all your tasks and tags? This cannot be undone.")) return;
+    if (!window.confirm("Delete all your tasks, tags and settings? This cannot be undone.")) return;
     clearAllTasks();
     clearAllTags();
-};
+    resetSettings();
+  };
 
   // Export .json file
   const handleExport = () => {
@@ -97,18 +96,6 @@ export default function Settings() {
     <div className="page settings">
       <h1>Settings</h1>
 
-      {/* <section className="card">
-        <h2>Profile</h2>
-        <label className="field">
-          <span>Your name</span>
-          <input
-            type="text"
-            placeholder="e.g. Sovisal"
-            value={settings.userName}
-            onChange={(e) => updateSetting("userName", e.target.value)}
-          />
-        </label>
-      </section> */}
 
       <section className="card">
         <h2>Appearance</h2>
@@ -126,27 +113,11 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* <section className="card">
-        <h2>Tasks</h2>
-        <label className="field">
-          <span>Default priority for new tasks</span>
-          <select
-            value={settings.defaultPriority}
-            onChange={(e) => updateSetting("defaultPriority", e.target.value)}
-          >
-            {PRIORITIES.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </label>
-      </section> */}
 
       {/* Remove Data */}
       <section className="card danger-zone">
         <h2>Danger zone</h2>
-        <p>Remove every task, category and setting saved in this browser.</p>
+        <p>Remove all your tasks, tags and settings.</p>
         <button type="button" className="btn btn-danger" onClick={handleClearAll}>
           Clear all data
         </button>
@@ -161,14 +132,16 @@ export default function Settings() {
           <br />
           <small>{currentAccount?.email}</small>
         </p>
-        <button type="button" onClick={logout}>Log out</button>
+        <button type="button" className="btn" onClick={logout}>Log out</button>
       </section>
 
     <section className="card">
       <h2>Backup</h2>
       <p>Export every account, task, tag and setting to one file, or restore from one.</p>
-      <button type="button" onClick={handleExport}>Export all data</button>
-      <button type="button" onClick={() => fileRef.current.click()}>Import all data</button>
+      <div className="actions">
+        <button type="button" className="btn" onClick={handleExport}>Export all data</button>
+        <button type="button" className="btn" onClick={() => fileRef.current.click()}>Import all data</button>
+      </div>
       <input
         ref={fileRef}
         type="file"

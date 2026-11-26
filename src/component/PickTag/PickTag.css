@@ -8,8 +8,8 @@
   margin-top: 6px;
   width: 260px;
   padding: 10px;
-  background: #1f1a29;
-  border: 1px solid #444;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
 }
 
@@ -18,10 +18,10 @@
 .chip {
   background: none;
   color: inherit;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 2px 10px;
   cursor: pointer;
 }
 
-.chip.selected { background: #0f8b8d; border-color: #0f8b8d; color: #fff; }
+.chip.selected { background: var(--accent); border-color: var(--accent); color: #fff; }

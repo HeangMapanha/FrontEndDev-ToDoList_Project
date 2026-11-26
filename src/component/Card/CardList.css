@@ -19,3 +19,7 @@
 .task-table .col-actions { width: 160px; }
 th.col-tags, th.col-due {text-align: center;}
 /* the Task and Tags columns share the remaining space */
+
+/* let the table scroll sideways on phones instead of squashing */
+.table-scroll { overflow-x: auto; }
+.task-table { min-width: 600px; }

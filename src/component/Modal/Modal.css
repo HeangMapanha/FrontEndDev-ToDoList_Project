@@ -14,8 +14,8 @@
   width: 100%;
   max-width: 480px;
   padding: 20px;
-  background: #1f1a29;
-  border: 1px solid #444;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   /* no overflow here: it would clip the tag dropdown */
 }
