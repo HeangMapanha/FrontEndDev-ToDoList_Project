@@ -1,0 +1,107 @@
+/* ===== Tasks page =====
+   Header with title, "x of y done", progress bar and buttons,
+   plus the New/Edit Task form inside the popup.
+   Only uses theme variables from index.css, so light and dark both work. */
+
+.tasks-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.tasks-header h1 {
+  margin-bottom: 4px;
+}
+
+.tasks-header .toolbar {
+  margin: 0;
+}
+
+/* thin bar under "x of y done" */
+.tasks-progress {
+  width: 200px;
+  max-width: 100%;
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.tasks-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+/* outlined button for less important actions (Manage Tags, Cancel) */
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-secondary:hover {
+  background: var(--accent-bg);
+}
+
+/* the "Clear completed" button under the table */
+.tasks-page .table-scroll > .btn {
+  margin-top: 8px;
+}
+
+/* ----- New / Edit Task form (inside the popup) ----- */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-form .pick-tag > button {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.task-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Phones: buttons take the full width */
+@media (max-width: 600px) {
+  .tasks-header {
+    align-items: stretch;
+  }
+
+  .tasks-header .toolbar,
+  .tasks-header .toolbar .btn {
+    width: 100%;
+  }
+
+  .tasks-header .toolbar .btn {
+    flex: 1;
+  }
+
+  .tasks-progress {
+    width: 100%;
+  }
+}
+
+/* Edit / Delete buttons in each row: keep the words on one line */
+.task-table .cell-actions .btn {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  flex-shrink: 0;
+}

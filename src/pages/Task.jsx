@@ -6,6 +6,7 @@ import CardForm from "../component/Card/CardForm";
 import CardList from "../component/Card/CardList";
 import Modal from "../component/Modal/Modal";
 import TagManager from "../component/TagManager/TagManager";
+import "./Task.css";
 
 export default function Tasks() {
   const { tasks } = useTask();
@@ -35,13 +36,22 @@ export default function Tasks() {
   });
 
   return (
-    <div>
-      <h1>Tasks</h1>
-      <p className="muted">{doneCount} of {tasks.length} done</p>
-      <div className="toolbar">
-        <button type="button" className="btn" onClick={openNew}>+ New Task</button>
-        <button type="button" className="btn" onClick={() => setTagsOpen(true)}>Manage Tags</button>
-      </div>
+    <div className="page tasks-page">
+      <header className="tasks-header">
+        <div>
+          <h1>Tasks</h1>
+          <p className="muted">{doneCount} of {tasks.length} done</p>
+          {tasks.length > 0 && (
+            <div className="tasks-progress" aria-hidden="true">
+              <span style={{ width: `${(doneCount / tasks.length) * 100}%` }} />
+            </div>
+          )}
+        </div>
+        <div className="toolbar">
+          <button type="button" className="btn" onClick={openNew}>+ New Task</button>
+          <button type="button" className="btn btn-secondary" onClick={() => setTagsOpen(true)}>Manage Tags</button>
+        </div>
+      </header>
 
       {/* Input filter info and the action */}
       <FilterBar filter={filter} onChange={setFilter} />

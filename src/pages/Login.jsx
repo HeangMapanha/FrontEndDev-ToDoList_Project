@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
+import "./Auth.css";
 
 export default function Login() {
   const { login, error, currentAccount } = useAuth();
@@ -19,33 +20,46 @@ export default function Login() {
 
   // Input for emails/passwords
   return (
-    <div className="main">
-      <form className="userInput" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          placeholder="Alice@gmail.com"
-          onChange={(event) => setEmail(event.target.value)}
-        />
+    <div className="auth-page">
+      <div className="auth-card">
+        <span className="auth-brand">To-Do List</span>
+        <h1>Welcome back</h1>
+        <p className="auth-subtitle">Log in to see your tasks.</p>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          placeholder="12345"
-          onChange={(event) => setPassword(event.target.value)}
-        />
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="auth-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              placeholder="alice@gmail.com"
+              autoComplete="email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
 
-        {error && <p className="error">{error}</p>}
+          <div className="auth-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              placeholder="Your password"
+              autoComplete="current-password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-        <button type="submit">Submit</button>
-      </form>
-      
-      <a href="/register">Register</a>
+          {error && <p className="auth-error">{error}</p>}
 
+          <button type="submit" className="btn">Log in</button>
+        </form>
+
+        <p className="auth-switch">
+          No account yet? <Link to="/register">Register</Link>
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
-p {
+/* only the date text inside the task table (a plain "p" here shrank every paragraph in the app) */
+.task-table td > div > p {
   font-size: 12px;
 }
 .due-label {
