@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Calendar.css";
 import { useTask } from "../hook/useTask";
 
@@ -19,7 +20,10 @@ function taskStatus(task, todayKey) {
   return "upcoming";
 }
 
-export default function Calendar({ onSelectTask }) {
+
+
+export default function Calendar() {
+  const navigate = useNavigate()
   const {tasks} = useTask()
   const [viewDate, setViewDate] = useState(() => {
     const now = new Date();
@@ -39,7 +43,7 @@ export default function Calendar({ onSelectTask }) {
     return map;
   }, [tasks]);
 
-  // Build the grid: start on the Sunday before the 1st, always 6 rows
+  // Build the grid: start on the Monday
   const cells = useMemo(() => {
     const year = viewDate.getFullYear();
     const month = viewDate.getMonth();
@@ -58,6 +62,7 @@ export default function Calendar({ onSelectTask }) {
     setViewDate((v) => new Date(v.getFullYear(), v.getMonth() + delta, 1));
   };
 
+  // warp back to the current month and date
   const goToday = () => {
     const now = new Date();
     setExpandedDay(null);
@@ -84,6 +89,7 @@ export default function Calendar({ onSelectTask }) {
         </div>
       </header>
 
+      {/* Display the weekdays */}
       <div className="cal-grid cal-weekdays">
         {WEEKDAYS.map((d) => (
           <div key={d} className="cal-weekday">
@@ -92,6 +98,7 @@ export default function Calendar({ onSelectTask }) {
         ))}
       </div>
 
+        {/* Build the grid */}
       <div className="cal-grid cal-days">
         {cells.map(({ date, key, inMonth }) => {
           const dayTasks = tasksByDate[key] || [];
@@ -116,7 +123,7 @@ export default function Calendar({ onSelectTask }) {
                     <button
                       className={`cal-task ${taskStatus(t, todayKey)}`}
                       title={t.title}
-                      onClick={() => onSelectTask?.(t)}
+                      onClick={() => navigate("/tasks")}
                     >
                       {t.title}
                     </button>
