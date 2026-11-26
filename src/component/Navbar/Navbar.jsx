@@ -4,9 +4,7 @@ import "./Navbar.css";
 export default function Navbar() {
   return (
     <nav className="navbar">
-      {/* <NavLink to="/" end>Dashboard</NavLink> */}
       <NavLink to="/tasks">Tasks</NavLink>
-      {/* <NavLink to="/tasks/edit">New Task</NavLink> */}
       <NavLink to="/calendar">Calendar</NavLink>
       <NavLink to="/settings">Settings</NavLink>
     </nav>
