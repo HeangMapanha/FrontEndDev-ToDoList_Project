@@ -28,9 +28,18 @@ export function TaskProvider({ children }) {
     );
 
   const toggleTask = (id) =>
-    setAllTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, complete: !t.complete } : t))
-    );
+    // Check for time: if completed true, also set the time of completion else null
+  setAllTasks((prev) =>
+    prev.map((t) => {
+      if (t.id !== id) return t;
+      const nowComplete = !t.complete;
+      return {
+        ...t,
+        complete: nowComplete,
+        completedAt: nowComplete ? new Date().toISOString() : null,
+      };
+    })
+  );
 
   const removeTagFromTasks = (tagId) =>
     setAllTasks((prev) =>

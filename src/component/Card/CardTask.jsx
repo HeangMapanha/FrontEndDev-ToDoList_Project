@@ -34,7 +34,6 @@ export function CardTask({ task, toggleTask, deleteTask, onEdit }) {
       <td>
         <TimeLabel date={task.dueDate} complete={task.complete} completedAt={task.completedAt}/>
       </td>
- 
       <td>
         {/* Match the tags  */}
         <div className="cell-tags">

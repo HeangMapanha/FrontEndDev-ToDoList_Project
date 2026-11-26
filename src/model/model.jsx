@@ -34,5 +34,6 @@ export const createTask = ({
   description,
   dueDate,
   complete: false,
+  completedAt: null,
   tagIds,
 });
