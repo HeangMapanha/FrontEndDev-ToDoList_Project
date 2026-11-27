@@ -1,12 +1,11 @@
 import './App.css'
-import { AuthProvider } from './context/AuthContext'
-import { LoginPage } from './pages/Login'
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from './pages/Login';
+import Registration from './pages/Registration';
+import ProtectedRoute from './pages/ProtectedRoute';
 import Layout from './component/Layout/Layout';
-import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Task";
-import EditTask from "./pages/EditTask";
 import Calendar from "./pages/Calendar";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -14,13 +13,19 @@ import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="tasks" element={<Tasks />} />
-        <Route path="tasks/new" element={<EditTask />} />
-        <Route path="calendar" element={<Calendar />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="*" element={<NotFound />} />
+      {/* public */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Registration />} />
+
+      {/* protected: everything inside needs a logged-in account */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<Navigate to="/tasks" replace />} />
+        <Route element={<Layout />}>
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Route>
     </Routes>
   );

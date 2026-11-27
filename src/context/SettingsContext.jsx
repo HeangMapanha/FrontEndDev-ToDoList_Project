@@ -1,44 +1,63 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-const STORAGE_KEY = "todo-settings";
+import { createContext, useContext, useEffect, useLayoutEffect } from "react";
+import { useLocalStorage } from "../hook/useLocalStorage";
+import { useAuth } from "../hook/useAuth";
+import { STORAGE_KEYS } from "../model/model";
 
 export const DEFAULT_SETTINGS = {
   theme: "light", // "light" | "dark"
-  defaultPriority: "Medium", // "Low" | "Medium" | "High"
-  userName: "",
 };
 
-function loadSettings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return { ...DEFAULT_SETTINGS, ...(saved || {}) };
-  } catch {
-    return DEFAULT_SETTINGS;
-  }
-}
+// The theme used when nobody is logged in (Login / Register pages).
+// It remembers the last theme anyone picked, so logging out keeps the same look.
+const LAST_THEME_KEY = "lastTheme";
 
 export const SettingsContext = createContext(null);
 
 export function SettingsProvider({ children }) {
-  const [settings, setSettings] = useState(loadSettings);
+  const { currentAccount } = useAuth();
+  const accountId = currentAccount?.id;
 
-  // Save every change to localStorage
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-  }, [settings]);
+  // shape: { [accountId]: { theme: "dark" } }
+  const [allSettings, setAllSettings] = useLocalStorage(STORAGE_KEYS.settings, {});
+  const [lastTheme, setLastTheme] = useLocalStorage(LAST_THEME_KEY, DEFAULT_SETTINGS.theme);
 
-  // Apply the theme to the whole app (<html data-theme="dark">)
-  useEffect(() => {
+  // logged in: this account's settings (a new account starts with the last theme)
+  // logged out: just the last theme
+  const settings = {
+    ...DEFAULT_SETTINGS,
+    theme: lastTheme,
+    ...(accountId ? allSettings[accountId] ?? {} : {}),
+  };
+
+  // apply the theme before paint to avoid a flash
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = settings.theme;
   }, [settings.theme]);
 
-  const updateSetting = (key, value) =>
-    setSettings((prev) => ({ ...prev, [key]: value }));
+  // after logging in, remember that account's theme for the next logged-out visit
+  useEffect(() => {
+    if (accountId && settings.theme !== lastTheme) setLastTheme(settings.theme);
+  }, [accountId, settings.theme, lastTheme, setLastTheme]);
+
+  const updateSetting = (key, value) => {
+    if (key === "theme") setLastTheme(value);
+    if (!accountId) return; // logged out: only the last theme is saved
+    setAllSettings((prev) => ({
+      ...prev,
+      [accountId]: { ...DEFAULT_SETTINGS, ...(prev[accountId] ?? {}), [key]: value },
+    }));
+  };
 
   const toggleTheme = () =>
     updateSetting("theme", settings.theme === "dark" ? "light" : "dark");
 
-  const resetSettings = () => setSettings(DEFAULT_SETTINGS);
+  const resetSettings = () => {
+    if (!accountId) return;
+    setAllSettings((prev) => {
+      const { [accountId]: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
 
   const value = { settings, updateSetting, toggleTheme, resetSettings };
 
@@ -51,8 +70,6 @@ export function SettingsProvider({ children }) {
 
 export function useSettings() {
   const ctx = useContext(SettingsContext);
-  if (!ctx) {
-    throw new Error("useSettings must be used inside SettingsProvider");
-  }
+  if (!ctx) throw new Error("useSettings must be used inside SettingsProvider");
   return ctx;
 }

@@ -5,8 +5,8 @@ export default function NotFound() {
     <div className="page empty-state">
       <h1>404</h1>
       <p>Sorry, this page doesn't exist.</p>
-      <Link to="/" className="btn">
-        Back to Dashboard
+      <Link to="/tasks" className="btn">
+        Back to Tasks
       </Link>
     </div>
   );

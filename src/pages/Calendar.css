@@ -1,0 +1,142 @@
+.cal {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cal-title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.cal-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.cal-nav button {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.cal-nav button:hover {
+  background: rgba(128, 128, 128, 0.15);
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.cal-weekday {
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.cal-days {
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+.cal-day {
+  min-height: 110px;
+  padding: 4px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.cal-day.outside {
+  opacity: 0.4;
+}
+
+.cal-date {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 4px;
+  margin-bottom: 4px;
+  border-radius: 11px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.cal-day.today .cal-date {
+  background: #2563eb;
+  color: #fff;
+}
+
+.cal-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cal-task {
+  --task-color: #555;
+  display: block;
+  width: 100%;
+  padding: 1px 6px;
+  border: 0;
+  border-left: 3px solid var(--task-color);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--task-color) 14%, transparent);
+  color: inherit;
+  font-size: 11px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.cal-task.completed {
+  --task-color: #22d906;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.cal-task.overdue {
+  --task-color: #dc2626;
+}
+.cal-task.due-today {
+  --task-color: #d97706;
+}
+.cal-task.upcoming {
+  --task-color: #16a34a;
+}
+
+.cal-more {
+  margin-top: 2px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 11px;
+  text-decoration: underline;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .cal-day {
+    min-height: 70px;
+  }
+  .cal-task {
+    font-size: 10px;
+  }
+}

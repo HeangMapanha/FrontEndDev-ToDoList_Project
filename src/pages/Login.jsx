@@ -1,31 +1,75 @@
 import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
+import { useSettings } from "../context/SettingsContext";
+import "./Auth.css";
 
-export function LoginPage () {
-    const { login, error } = useAuth()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")   
+export default function Login() {
+  const { login, error, currentAccount } = useAuth();
+  const { settings, toggleTheme } = useSettings();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        if (!email.trim() || !password.trim()) return
-        console.log("submitted:", email, password); 
-        return login(email.trim(), login)
-        
-    }
+  // already logged in: go straight to the tasks page
+  if (currentAccount) return <Navigate to="/tasks" replace />;
 
-    return (
-        <div className="main">
-            <form className="userInput" onSubmit={handleSubmit}>
-                <label className="email">Email:</label>
-                <input value={email} type="email" placeholder="Alice@gmail.com" onChange={(event) => setEmail(event.target.value)}></input>
-                
-                <label className="password">Password:</label>
-                <input value={password} type="text" placeholder="Alice@gmail.com" onChange={(event) => setPassword(event.target.value)}></input>
-                
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    )
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!email.trim() || !password.trim()) return;
 
+    login(email.trim(), password);
+  };
+
+  // Input for emails/passwords
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <button
+          type="button"
+          className="auth-theme"
+          onClick={toggleTheme}
+          aria-label="Toggle dark mode"
+        >
+          {settings.theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
+        <span className="auth-brand">To-Do List</span>
+        <h1>Welcome back</h1>
+        <p className="auth-subtitle">Log in to see your tasks.</p>
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="auth-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              placeholder="alice@gmail.com"
+              autoComplete="email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              placeholder="Your password"
+              autoComplete="current-password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+
+          {error && <p className="auth-error">{error}</p>}
+
+          <button type="submit" className="btn">Log in</button>
+        </form>
+
+        <p className="auth-switch">
+          No account yet? <Link to="/register">Register</Link>
+        </p>
+      </div>
+    </div>
+  );
 }

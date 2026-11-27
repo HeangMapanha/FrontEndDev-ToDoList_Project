@@ -183,3 +183,11 @@ textarea:focus {
     padding: 16px;
   }
 }
+
+/* Row of buttons at the top of a page */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}

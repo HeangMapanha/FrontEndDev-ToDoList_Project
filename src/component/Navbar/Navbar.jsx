@@ -24,9 +24,7 @@ export default function Navbar() {
       </div>
 
       <div className={`nav-links ${open ? "open" : ""}`}>
-        <NavLink to="/" end onClick={close}>Dashboard</NavLink>
-        <NavLink to="/tasks" end onClick={close}>Tasks</NavLink>
-        <NavLink to="/tasks/new" onClick={close}>New Task</NavLink>
+        <NavLink to="/tasks" onClick={close}>Tasks</NavLink>
         <NavLink to="/calendar" onClick={close}>Calendar</NavLink>
         <NavLink to="/settings" onClick={close}>Settings</NavLink>
 

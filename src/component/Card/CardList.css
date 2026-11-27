@@ -1,0 +1,25 @@
+.task-table {
+  width: 100%;
+  table-layout: fixed;          /* widths come from the columns, not the content */
+  border-collapse: separate;
+  border-spacing: 0 8px;        /* gap between rows */
+}
+
+.task-table th {
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  opacity: 0.6;
+  padding: 0 14px;
+}
+
+.task-table .col-check   { width: 40px; }
+.task-table .col-desc   { width: 40px; }
+.task-table .col-due     { width: 140px; }
+.task-table .col-actions { width: 100px; }
+th.col-tags, th.col-due {text-align: center;}
+/* the Task and Tags columns share the remaining space */
+
+/* let the table scroll sideways on phones instead of squashing */
+.table-scroll { overflow-x: auto; }
+.task-table { min-width: 600px; }

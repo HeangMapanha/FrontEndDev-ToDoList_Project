@@ -6,6 +6,15 @@
 .sidebar {
   width: 220px;
   flex-shrink: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    background: #1c1824;
 }
 
 .layout main {
@@ -15,20 +24,10 @@
   background: var(--bg);
 }
 
-/* Phones: sidebar becomes a top bar, content full width */
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  .layout main {
-    padding: 16px;
-  }
+main {
+    flex: 1;
+    min-width: 0;
+    padding: 20px;
+    background: #141119;
+    overflow-y: auto;
 }
