@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
+import { useSettings } from "../context/SettingsContext";
 import "./Auth.css";
 
 export default function Login() {
   const { login, error, currentAccount } = useAuth();
+  const { settings, toggleTheme } = useSettings();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,6 +24,14 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <button
+          type="button"
+          className="auth-theme"
+          onClick={toggleTheme}
+          aria-label="Toggle dark mode"
+        >
+          {settings.theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
         <span className="auth-brand">To-Do List</span>
         <h1>Welcome back</h1>
         <p className="auth-subtitle">Log in to see your tasks.</p>

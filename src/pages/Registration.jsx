@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
+import { useSettings } from "../context/SettingsContext";
 import "./Auth.css";
 
 export default function Registration() {
   const { register, currentAccount, error } = useAuth();
+  const { settings, toggleTheme } = useSettings();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,6 +39,14 @@ export default function Registration() {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <button
+          type="button"
+          className="auth-theme"
+          onClick={toggleTheme}
+          aria-label="Toggle dark mode"
+        >
+          {settings.theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
         <span className="auth-brand">To-Do List</span>
         <h1>Create an account</h1>
         <p className="auth-subtitle">Your tasks are saved in this browser.</p>

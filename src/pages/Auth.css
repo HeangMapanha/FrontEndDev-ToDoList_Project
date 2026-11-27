@@ -12,6 +12,7 @@
 }
 
 .auth-card {
+  position: relative; /* so the theme button can sit in the corner */
   width: 100%;
   max-width: 400px;
   padding: 32px 28px;
@@ -79,6 +80,25 @@
 
 .auth-switch a {
   font-weight: 600;
+}
+
+/* Light / Dark button in the top-right corner of the card */
+.auth-theme {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.auth-theme:hover {
+  background: var(--accent-bg);
+  color: var(--text-h);
 }
 
 @media (max-width: 480px) {
