@@ -4,7 +4,7 @@ A task manager built with **React + Vite** by a team of three for the Front-End 
 Each user registers an account, then creates tasks with a description, due date and coloured tags, filters and searches them, sees them on a monthly calendar, and switches between light and dark themes.
 All data is saved in the browser with `localStorage`, so there is no backend.
 
-**Live demo:** TODO: add the new Vercel link here once the project is deployed from this repository.
+**Live demo:** https://todo-list-seven-silk-42.vercel.app.
 
 ## Features
 
@@ -31,8 +31,6 @@ cd FrontEndDev-ToDoList_Project
 npm install
 npm run dev
 ```
-
-**Live demo:** https://todo-list-seven-silk-42.vercel.app
 
 ## Scripts
 
