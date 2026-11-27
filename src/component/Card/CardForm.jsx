@@ -21,7 +21,7 @@ export default function CardForm({ task = null, onDone }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="task-form" onSubmit={handleSubmit}>
       {/* Title of the Task */}
       <input
         type="text"
@@ -47,8 +47,10 @@ export default function CardForm({ task = null, onDone }) {
 
       <PickTag selectedIds={tagIds} onChange={setTagIds} />
 
-      <button type="submit">{task ? "Save" : "Add Task"}</button>
-      <button type="button" onClick={onDone}>Cancel</button>
+      <div className="task-form-actions">
+        <button type="button" className="btn btn-secondary" onClick={onDone}>Cancel</button>
+        <button type="submit" className="btn">{task ? "Save" : "Add Task"}</button>
+      </div>
     </form>
   );
 }

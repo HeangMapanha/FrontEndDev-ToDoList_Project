@@ -1,4 +1,5 @@
 import { useTag } from "../../hook/useTag";
+import "./FilterBar.css";
 
 export default function FilterBar({ filter, onChange }) {
   const { tags } = useTag();

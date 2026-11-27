@@ -1,4 +1,4 @@
-import { createContext, useContext, useLayoutEffect } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect } from "react";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { useAuth } from "../hook/useAuth";
 import { STORAGE_KEYS } from "../model/model";
@@ -6,6 +6,10 @@ import { STORAGE_KEYS } from "../model/model";
 export const DEFAULT_SETTINGS = {
   theme: "light", // "light" | "dark"
 };
+
+// The theme used when nobody is logged in (Login / Register pages).
+// It remembers the last theme anyone picked, so logging out keeps the same look.
+const LAST_THEME_KEY = "lastTheme";
 
 export const SettingsContext = createContext(null);
 
@@ -15,17 +19,29 @@ export function SettingsProvider({ children }) {
 
   // shape: { [accountId]: { theme: "dark" } }
   const [allSettings, setAllSettings] = useLocalStorage(STORAGE_KEYS.settings, {});
+  const [lastTheme, setLastTheme] = useLocalStorage(LAST_THEME_KEY, DEFAULT_SETTINGS.theme);
 
-  // only this account's settings are exposed; missing keys fall back to defaults
-  const settings = { ...DEFAULT_SETTINGS, ...(allSettings[accountId] ?? {}) };
+  // logged in: this account's settings (a new account starts with the last theme)
+  // logged out: just the last theme
+  const settings = {
+    ...DEFAULT_SETTINGS,
+    theme: lastTheme,
+    ...(accountId ? allSettings[accountId] ?? {} : {}),
+  };
 
   // apply the theme before paint to avoid a flash
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = settings.theme;
   }, [settings.theme]);
 
+  // after logging in, remember that account's theme for the next logged-out visit
+  useEffect(() => {
+    if (accountId && settings.theme !== lastTheme) setLastTheme(settings.theme);
+  }, [accountId, settings.theme, lastTheme, setLastTheme]);
+
   const updateSetting = (key, value) => {
-    if (!accountId) return;
+    if (key === "theme") setLastTheme(value);
+    if (!accountId) return; // logged out: only the last theme is saved
     setAllSettings((prev) => ({
       ...prev,
       [accountId]: { ...DEFAULT_SETTINGS, ...(prev[accountId] ?? {}), [key]: value },

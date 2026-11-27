@@ -1,4 +1,11 @@
 .layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -10,8 +17,11 @@
     background: #1c1824;
 }
 
-.sidebar > * {
-    height: 100%;
+.layout main {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+  background: var(--bg);
 }
 
 main {

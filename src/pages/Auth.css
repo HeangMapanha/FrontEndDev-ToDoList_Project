@@ -1,0 +1,108 @@
+/* ===== Login + Registration pages =====
+   Shared by Login.jsx and Registration.jsx.
+   Only uses theme variables from index.css, so light and dark both work. */
+
+.auth-page {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--bg);
+}
+
+.auth-card {
+  position: relative; /* so the theme button can sit in the corner */
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.auth-brand {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.auth-card h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-field label {
+  color: var(--text-h);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-error {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.auth-form .btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.auth-switch {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.auth-switch a {
+  font-weight: 600;
+}
+
+/* Light / Dark button in the top-right corner of the card */
+.auth-theme {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.auth-theme:hover {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 18px;
+  }
+}
