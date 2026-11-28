@@ -6,6 +6,7 @@ import CardForm from "../component/Card/CardForm";
 import CardList from "../component/Card/CardList";
 import Modal from "../component/Modal/Modal";
 import TagManager from "../component/TagManager/TagManager";
+import Dashboard from "../component/Dashboard/Dashboard";
 import "./Task.css";
 
 export default function Tasks() {
@@ -37,6 +38,8 @@ export default function Tasks() {
 
   return (
     <div className="page tasks-page">
+      <Dashboard />
+
       <header className="tasks-header">
         <div>
           <h1>Tasks</h1>
