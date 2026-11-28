@@ -96,5 +96,5 @@ The app is deployed on Vercel from a fork that mirrors `main`, and it rebuilds a
 | Person                   | Responsibility                                                                                     |
 | ------------------------ | -------------------------------------------------------------------------------------------------- |
 | Person 1: Heang Mapanha  | Routing, login/register (AuthContext), TaskContext, tags, Tasks page, filters, Calendar, export/import |
-| Person 2: Khemro      |                                                                                |
+| Person 2: Khemro  |                                                                                |
 | Person 3: Hor Sovisal| Layout and navbar, SettingsContext and theme, Settings page, Login/Register/Tasks page styling, responsive design, 404, deployment, docs, Readme, report |
